@@ -1,0 +1,5 @@
+node_modules
+x-archive
+src/data
+.env
+.DS_Store

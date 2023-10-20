@@ -40,7 +40,15 @@ If you're comfortable with JavaScript, you can directly modify `src/duckdb.js` t
 
 If you know SQL (or want to learn!), use the [DuckDB](https://duckdb.org/) CLI app against the exported data. You'll find that data in the `src/data` folder as CSV files. From your terminal, you can run the `duckdb` app and query the exported CSV data directly.
 
+### DuckDB example
+
+Run each of these statements one at a time from your terminal.
+
 ```sh
 > duckdb
-D SELECT count(*) AS total_posts FROM 'src/data/tweets.csv';
+D CREATE TABLE tweets AS SELECT * FROM 'src/data/tweets.csv';
+D DESCRIBE tweets;
+D SELECT count(*) AS total_posts FROM tweets;
 ```
+
+You can query directly against CSV files. However, the above `CREATE TABLE` statement creates a temporary table in memory that you can query against. `DESCRIBE tweets` will output the columns of that table so you can get an idea of what queries you may want to run.

@@ -27,8 +27,6 @@ async function topFavorites( db, csvFilePath ) {
   console.log( topFavorites );
 }
 
-// dayname(created_at_date)
-
 async function postStats( db, csvFilePath ) {
   const totalPosts = await db.all( `
   SELECT count(*) AS total_posts

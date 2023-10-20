@@ -8,7 +8,8 @@ async function topRetweets( db, csvFilePath ) {
     link
   FROM read_csv_auto( '${ csvFilePath }' )
   ORDER BY retweet_count DESC
-  LIMIT 10;` );
+  LIMIT 3;` );
+
   console.log( "\nTop Retweets!\n" );
   console.log( topRetweets );
 }
@@ -21,7 +22,7 @@ async function topFavorites( db, csvFilePath ) {
     link 
   FROM read_csv_auto( '${ csvFilePath }' )
   ORDER BY favorite_count DESC
-  LIMIT 10;` );
+  LIMIT 3;` );
 
   console.log( "\nTop Favorites!\n" );
   console.log( topFavorites );
@@ -45,7 +46,9 @@ async function postStats( db, csvFilePath ) {
   GROUP BY dayname(created_at_date)
   ORDER BY 2 DESC;` );
 
+  console.log( "\nTotal posts and replies\n" );
   console.log( totalPosts, totalReplies );
+  console.log( "\nMost active days\n" );
   console.log( postsByDay );
 }
 

@@ -23,19 +23,44 @@ async function readXFile( xfilePath, objectName ) {
     };
   }
   global.window.YTD[objectName] = {};
-  await import( xfilePath );
-  const data = global.window.YTD[objectName].part0;
-  delete global.window; // free up the memory
-  return data;
+  try {
+    await import( xfilePath );
+    const data = global.window.YTD[objectName].part0;
+    if ( !data ) {
+      throw new Error( "Data is missing or not in the expected format." );
+    }
+    return data;
+  } catch ( err ) {
+    console.log( `Error loading required data file: ${ xfilePath }` );
+    console.log( "Please verify you have copied your X archive data files into the correct folder and try again." );
+    console.log( err );
+    process.exit( 1 );
+  } finally {
+    delete global.window.YTD[objectName]; // free up the memory
+  }
+}
+
+async function readAccountFile( accountPath ) {
+  const accountData = await readXFile( accountPath, "account" );
+  if ( accountData.length === 0 ) {
+    console.log( `Error loading required data file: ${ accountPath }` );
+    console.log( "Account data is missing" );
+    process.exit( 1 );
+  }
+  return accountData[0].account;
 }
 
 async function convertTweetsToJSON( jsPath, jsonPath ) {
   try {
     const tweets = await readXFile( jsPath, "tweets" );
+    if ( !tweets || tweets.length === 0 ) {
+      throw new Error( "Tweet data missing or not in the expected format" );
+    }
     await fs.writeFile( jsonPath, JSON.stringify( tweets, null, 2 ), { encoding: "utf-8" } );
   } catch( err ) {
     console.log( "Error reading or writing tweets" );
     console.log( err );
+    process.exit( 1 );
   }
 }
 
@@ -112,8 +137,7 @@ async function main() {
   const flatPath = resolve( join( ".", "src", "data", "flattened_tweets.json" ) );
   const csvPath = resolve( join( ".", "src", "data", "tweets.csv" ) );
 
-  const accountData = await readXFile( accountPath, "account" );
-  const account = accountData[0].account;
+  const account = await readAccountFile( accountPath );
 
   const tweetJsonExists = await fileExists( jsonPath );
   if ( !tweetJsonExists ) {

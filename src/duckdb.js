@@ -41,15 +41,26 @@ async function postStats( db, csvFilePath ) {
 
   const postsByDay = await db.all( `
   SELECT dayname(created_at_date) as day_of_the_week, 
-    count(*) AS posts
+    count(*) AS posts_and_replies
   FROM read_csv_auto( '${ csvFilePath }' )
   GROUP BY dayname(created_at_date)
   ORDER BY 2 DESC;` );
+
+  const postsByMonthYear = await db.all( `
+  SELECT monthname(created_at_date) as month,
+    datepart('year', created_at_date) as year,
+    count(*) AS posts
+  FROM read_csv_auto( '${ csvFilePath }' )
+  GROUP BY 1, 2
+  ORDER BY 3 DESC
+  LIMIT 10;` );
 
   console.log( "\nTotal posts and replies\n" );
   console.log( totalPosts, totalReplies );
   console.log( "\nMost active days\n" );
   console.log( postsByDay );
+  console.log( "\nMost active months\n" );
+  console.log( postsByMonthYear );
 }
 
 export async function analyzePosts( csvFilePath ) {

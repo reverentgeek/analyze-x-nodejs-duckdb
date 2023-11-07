@@ -56,7 +56,8 @@ async function convertTweetsToJSON( jsPath, jsonPath ) {
     if ( !tweets || tweets.length === 0 ) {
       throw new Error( "Tweet data missing or not in the expected format" );
     }
-    await fs.writeFile( jsonPath, JSON.stringify( tweets, null, 2 ), { encoding: "utf-8" } );
+    const stringifiedTweets = JSON.stringify( tweets, null, 2 );
+    await fs.writeFile( jsonPath, stringifiedTweets, { encoding: "utf-8" } );
   } catch( err ) {
     console.log( "Error reading or writing tweets" );
     console.log( err );

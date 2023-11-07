@@ -8,7 +8,9 @@ Learn how to [download your X data](https://help.twitter.com/en/managing-your-ac
 
 * [Download your X data archive.](https://help.twitter.com/en/managing-your-account/accessing-your-x-data) Your request may take 24 hours or more to process.
 * Install [Node.js version 18 or higher.](https://nodejs.org/)
-* Optional: Install [DuckDB](https://duckdb.org/). DuckDB is included in the project. However, you may want the standalone app to run your own queries against the converted data (see _Next steps_ below).
+* Install [DuckDB](https://duckdb.org/).
+
+> Note: You can use DuckDB in a Node.js application with the [duckdb-async](https://www.npmjs.com/package/duckdb-async) library without having to install the DuckDB app. However, you may want the standalone app to run your queries against the converted data (see _Next steps_ below).
 
 ## Setup
 

@@ -1,5 +1,20 @@
 import duckdb from "duckdb-async";
 
+export async function analyzePosts( csvFilePath ) {
+  try {
+    // Create an instance of DuckDB using in-memory storage
+    const db = await duckdb.Database.create( ":memory:" );
+
+    await topRetweets( db, csvFilePath );
+    await topFavorites( db, csvFilePath );
+    await postStats( db, csvFilePath );
+
+  } catch ( err ) {
+    console.log( "Uh oh! There's an error!" );
+    console.log( err );
+  }
+}
+
 async function topRetweets( db, csvFilePath ) {
   const topRetweets = await db.all( `
   SELECT full_text, 
@@ -63,16 +78,3 @@ async function postStats( db, csvFilePath ) {
   console.log( postsByMonthYear );
 }
 
-export async function analyzePosts( csvFilePath ) {
-  try {
-    const db = await duckdb.Database.create( ":memory:" );
-
-    await topRetweets( db, csvFilePath );
-    await topFavorites( db, csvFilePath );
-    await postStats( db, csvFilePath );
-
-  } catch ( err ) {
-    console.log( "Uh oh! There's an error!" );
-    console.log( err );
-  }
-}

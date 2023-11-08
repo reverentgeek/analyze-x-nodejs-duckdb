@@ -1,6 +1,6 @@
 # Analyze Your X (Twitter) Data with Node.js and DuckDB
 
-This project demonstrates how to analyze your X (Twitter) archive using Node.js and DuckDB.
+This project was created for the blog post, [Analyze Your X (Twitter) Data with Node.js and DuckDB](https://motherduck.com/blog/analyze-x-data-nodejs-duckdb/). It's a tool for converting your X archive data to comma-separated values (CSV) using Node.js and analyzing that data with DuckDB. Go read the post, or explore the code here!
 
 Learn how to [download your X data](https://help.twitter.com/en/managing-your-account/accessing-your-x-data) on the X Help Center.
 
